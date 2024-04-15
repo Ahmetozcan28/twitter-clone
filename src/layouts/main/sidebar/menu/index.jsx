@@ -1,37 +1,42 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
+import { mainMenu } from "utils/consts";
+import More from "./more";
+import New from "./new";
 export default function Menu() {
   return (
-    <nav className="mt-0.5  mb-1">
-      <NavLink to="/" className="block -ml-2.5 group ">
-        {({ isActive }) => (
-          <div
-            className={classNames(
-              " inline-flex items-center group-hover:bg-[#eff3f41a] duration-300  gap-5 p-3  rounded-full",
-              { "font-bold": isActive }
-            )}
-          >
-            {!isActive && (
-              <svg viewBox="0 0 24 24" width={26.5} height={26.5}>
-                <path
-                  fill="#e7e9ea"
-                  d="M21.591 7.146L12.52 1.157c-.316-.21-.724-.21-1.04 0l-9.071 5.99c-.26.173-.409.456-.409.757v13.183c0 .502.418.913.929.913h6.638c.511 0 .929-.41.929-.913v-7.075h3.008v7.075c0 .502.418.913.929.913h6.639c.51 0 .928-.41.928-.913V7.904c0-.301-.158-.584-.408-.758zM20 20l-4.5.01.011-7.097c0-.502-.418-.913-.928-.913H9.44c-.511 0-.929.41-.929.913L8.5 20H4V8.773l8.011-5.342L20 8.764z"
-                ></path>
-              </svg>
-            )}
-            {isActive && (
-              <svg viewBox="0 0 24 24" width={26.5} height={26.5}>
-                <path
-                  fill="#fff"
-                  d="M21.591 7.146L12.52 1.157c-.316-.21-.724-.21-1.04 0l-9.071 5.99c-.26.173-.409.456-.409.757v13.183c0 .502.418.913.929.913H9.14c.51 0 .929-.41.929-.913v-7.075h3.909v7.075c0 .502.417.913.928.913h6.165c.511 0 .929-.41.929-.913V7.904c0-.301-.158-.584-.408-.758z"
-                ></path>
-              </svg>
-            )}
-            <div className="text-xl  pr-5">Anasayfa</div>
-          </div>
-        )}
-      </NavLink>
+    <nav className="mt-0.5 mb-1">
+      {mainMenu.map((menu, index) => (
+        <NavLink
+          to={menu?.path}
+          className="block -ml-2.5 py-[3px] group "
+          key={index}
+        >
+          {({ isActive }) => (
+            <div
+              className={classNames(
+                " inline-flex items-center opacity-90 tracking-wide group-hover:bg-[#eff3f41a] duration-300  gap-5 p-3  rounded-full",
+                { "font-bold": isActive }
+              )}
+            >
+              <div className="w-[26.25px] h-[26.25px] relative">
+                {menu?.notifications && (
+                  <span className=" absolute h-[18px] w-[18px] text-[11px] bg-[#1d9bf0] rounded-full flex items-center justify-center -top-1 -right-0.5">
+                    {menu?.notifications}
+                  </span>
+                )}
+                {!isActive && menu?.icon.passive}
+                {isActive && menu?.icon.active}
+              </div>
+
+              <div className="text-xl  pr-5">{menu?.title}</div>
+            </div>
+          )}
+        </NavLink>
+      ))}
+      <More />
+      <New />
     </nav>
   );
 }
